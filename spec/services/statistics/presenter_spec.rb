@@ -14,14 +14,14 @@ RSpec.describe Statistics::Presenter do
     )
   end
   let(:expected_output) do
-    <<-STR
-    /about 7 visits
-    /contact 5 visits
-    /help_page/1 3 visits
+    <<~STR
+      /about 7 visits
+      /contact 5 visits
+      /help_page/1 3 visits
 
-    /help_page/1 3 unique views
-    /contact 2 unique views
-    /about 1 unique views
+      /help_page/1 3 unique views
+      /contact 2 unique views
+      /about 1 unique views
     STR
   end
 
