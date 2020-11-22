@@ -27,4 +27,10 @@ RSpec.describe Statistics::Builder do
       [['/contact', 1], ['/about', 2], ['/help_page/1', 1]]
     )
   end
+
+  context 'when file is empty' do
+    it 'raises error' do
+      expect { subject.call([]) }.to raise_error('No data provided')
+    end
+  end
 end

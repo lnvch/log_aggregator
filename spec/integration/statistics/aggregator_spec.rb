@@ -12,7 +12,6 @@ RSpec.describe Statistics::Aggregator do
   subject { described_class }
 
   let(:path) { 'spec/fixtures/example2.log' }
-
   let(:expected_output) do
     <<~STR
       /home 11 visits
@@ -33,5 +32,22 @@ RSpec.describe Statistics::Aggregator do
 
   it 'provides log statistics result' do
     expect { subject.call(path) }.to output(expected_output).to_stdout
+  end
+
+  context 'when input file is malformed' do
+    let(:path) { 'spec/fixtures/malformed.log' }
+    let(:expected_output) do
+      <<~STR
+        /contact 1 visits
+        /about 1 visits
+
+        /contact 1 unique views
+        /about 1 unique views
+      STR
+    end
+
+    it 'still provides statistics for valid entries' do
+      expect { subject.call(path) }.to output(expected_output).to_stdout
+    end
   end
 end

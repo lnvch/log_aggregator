@@ -14,6 +14,8 @@ module Statistics
     attr_reader :entries, :extended_statistics
 
     def call
+      raise 'No data provided' if entries.empty?
+
       build_extended_statistics
 
       Statistics::Result.new(page_views, unique_page_views)
