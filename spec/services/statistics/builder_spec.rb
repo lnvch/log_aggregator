@@ -2,8 +2,6 @@
 
 require 'spec_helper'
 require_relative '../../../services/statistics/builder'
-require_relative '../../../models/log/entry'
-require_relative '../../../models/statistics/result'
 
 RSpec.describe Statistics::Builder do
   subject { described_class }

@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 require_relative '../../../services/log/parser'
-require_relative '../../../models/log/entry'
 
 RSpec.describe Log::Parser do
   subject { described_class }

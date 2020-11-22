@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 require_relative '../../../services/statistics/presenter'
-require_relative '../../../models/statistics/result'
 
 RSpec.describe Statistics::Presenter do
   subject { described_class }
