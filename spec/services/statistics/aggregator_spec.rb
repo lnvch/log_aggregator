@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../services/statistics/aggregator'
 
 RSpec.describe Statistics::Aggregator do
-  subject { described_class }
+  subject { described_class.new(filename) }
 
   let(:filename) { 'dummy' }
   let(:log_entries) { double('log entries') }
@@ -20,6 +19,6 @@ RSpec.describe Statistics::Aggregator do
     expect(Statistics::Builder).to receive(:call).with(log_entries)
     expect(Statistics::Presenter).to receive(:call).with(result)
 
-    subject.call(filename)
+    subject.call
   end
 end

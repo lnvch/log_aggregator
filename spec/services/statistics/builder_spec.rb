@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../services/statistics/builder'
 
 RSpec.describe Statistics::Builder do
-  subject { described_class }
+  subject { described_class.new(entries) }
 
   let(:entries) do
     [
@@ -17,7 +16,7 @@ RSpec.describe Statistics::Builder do
   end
 
   it 'returns statistic result' do
-    result = subject.call(entries)
+    result = subject.call
 
     expect(result).to be_kind_of(Statistics::Result)
     expect(result.page_views).to eq(
@@ -29,8 +28,10 @@ RSpec.describe Statistics::Builder do
   end
 
   context 'when file is empty' do
+    let(:entries) { [] }
+
     it 'raises error' do
-      expect { subject.call([]) }.to raise_error('No data provided')
+      expect { subject.call }.to raise_error('No data provided')
     end
   end
 end

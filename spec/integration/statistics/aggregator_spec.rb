@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../services/statistics/aggregator'
-require_relative '../../../services/log/parser'
-require_relative '../../../models/log/entry'
-require_relative '../../../services/statistics/builder'
-require_relative '../../../models/statistics/result'
-require_relative '../../../services/statistics/presenter'
 
 RSpec.describe Statistics::Aggregator do
-  subject { described_class }
+  subject { described_class.new(path) }
 
   let(:path) { 'spec/fixtures/example2.log' }
   let(:expected_output) do
@@ -31,7 +25,7 @@ RSpec.describe Statistics::Aggregator do
   end
 
   it 'provides log statistics result' do
-    expect { subject.call(path) }.to output(expected_output).to_stdout
+    expect { subject.call }.to output(expected_output).to_stdout
   end
 
   context 'when input file is malformed' do
@@ -47,7 +41,7 @@ RSpec.describe Statistics::Aggregator do
     end
 
     it 'still provides statistics for valid entries' do
-      expect { subject.call(path) }.to output(expected_output).to_stdout
+      expect { subject.call }.to output(expected_output).to_stdout
     end
   end
 end

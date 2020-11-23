@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../services/statistics/presenter'
 
 RSpec.describe Statistics::Presenter do
-  subject { described_class }
+  subject { described_class.new(input) }
 
-  let(:result) do
+  let(:input) do
     Statistics::Result.new(
       [['/contact', 5], ['/about', 7], ['/help_page/1', 3]],
       [['/contact', 2], ['/about', 1], ['/help_page/1', 3]]
@@ -25,6 +24,6 @@ RSpec.describe Statistics::Presenter do
   end
 
   it 'represents statistics result in defined order' do
-    expect { subject.call(result) }.to output(expected_output).to_stdout
+    expect { subject.call }.to output(expected_output).to_stdout
   end
 end

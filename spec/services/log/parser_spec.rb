@@ -1,44 +1,52 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../services/log/parser'
-require_relative '../../../models/log/entry'
 
 RSpec.describe Log::Parser do
-  subject { described_class }
+  subject { described_class.new(path) }
 
-  let(:path) { 'spec/fixtures/example.log' }
-  let(:path_with_wrong_format) { 'spec/fixtures/example.txt' }
-  let(:wrong_path) { 'spec/fixtures/example1.log' }
+  context 'when path is proper' do
+    let(:path) { 'spec/fixtures/example.log' }
 
-  it 'returns array of log entries' do
-    result = subject.call(path)
+    it 'returns array of log entries' do
+      result = subject.call
 
-    expect(result).to be_kind_of(Array)
-    expect(result.length).to eq(1)
-    expect(result.first.page).to eq('/contact')
-    expect(result.first.ip_address).to eq('192.168.1.1')
+      expect(result).to be_kind_of(Array)
+      expect(result.length).to eq(1)
+      expect(result.first.page).to eq('/contact')
+      expect(result.first.ip_address).to eq('192.168.1.1')
+    end
   end
 
-  it 'checks that path is not empty' do
-    expect { subject.call(nil) }.to raise_error('Provided path is empty')
+  context 'when path is nil' do
+    let(:path) { nil }
+
+    it 'raises error' do
+      expect { subject.call }.to raise_error('Provided path is empty')
+    end
   end
 
-  it 'checks file format' do
-    expect do
-      subject.call(path_with_wrong_format)
-    end.to raise_error('File format is wrong')
+  context 'when path has wrong file format' do
+    let(:path) { 'spec/fixtures/example.txt' }
+
+    it 'raises error' do
+      expect { subject.call }.to raise_error('File format is wrong')
+    end
   end
 
-  it 'checks that file exists' do
-    expect { subject.call(wrong_path) }.to raise_error('File does not exist')
+  context 'when file does not exist' do
+    let(:path) { 'spec/fixtures/example1.log' }
+
+    it 'raises error' do
+      expect { subject.call }.to raise_error('File does not exist')
+    end
   end
 
   context 'when line in the file is malformed' do
     let(:path) { 'spec/fixtures/malformed.log' }
 
     it 'skips malformed line' do
-      result = subject.call(path)
+      result = subject.call
 
       expect(result.length).to eq(2)
       expect(result[0].page).to eq('/contact')

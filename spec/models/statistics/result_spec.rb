@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../models/statistics/result'
 
 RSpec.describe Statistics::Result do
   subject { described_class.new(first_param, second_param) }
