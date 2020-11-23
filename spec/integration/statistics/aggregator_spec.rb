@@ -30,18 +30,9 @@ RSpec.describe Statistics::Aggregator do
 
   context 'when input file is malformed' do
     let(:path) { 'spec/fixtures/malformed.log' }
-    let(:expected_output) do
-      <<~STR
-        /contact 1 visits
-        /about 1 visits
 
-        /contact 1 unique views
-        /about 1 unique views
-      STR
-    end
-
-    it 'still provides statistics for valid entries' do
-      expect { subject.call }.to output(expected_output).to_stdout
+    it 'raises error' do
+      expect { subject.call }.to raise_error('Input file is malformed')
     end
   end
 end

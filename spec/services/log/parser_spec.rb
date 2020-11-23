@@ -45,12 +45,8 @@ RSpec.describe Log::Parser do
   context 'when line in the file is malformed' do
     let(:path) { 'spec/fixtures/malformed.log' }
 
-    it 'skips malformed line' do
-      result = subject.call
-
-      expect(result.length).to eq(2)
-      expect(result[0].page).to eq('/contact')
-      expect(result[1].page).to eq('/about')
+    it 'raises error' do
+      expect { subject.call }.to raise_error('Input file is malformed')
     end
   end
 end

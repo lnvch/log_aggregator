@@ -35,7 +35,10 @@ module Log
     def parse_line(line)
       params = line.split
       entry = Log::Entry.new(params[0], params[1])
-      result << entry if entry.valid?
+
+      raise 'Input file is malformed' unless entry.valid?
+
+      result << entry
       result
     end
   end
