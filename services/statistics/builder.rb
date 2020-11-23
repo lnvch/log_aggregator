@@ -9,19 +9,19 @@ module Statistics
 
     def initialize(entries)
       @entries = entries
-      @extended_statistics = nil
     end
-    attr_reader :entries, :extended_statistics
 
     def call
       raise 'No data provided' if entries.empty?
 
       build_extended_statistics
 
-      Statistics::Result.new(page_views, unique_page_views)
+      Statistics::Result.new(page_views)
     end
 
     private
+
+    attr_reader :entries, :extended_statistics
 
     def build_extended_statistics
       initial = Hash.new([])
@@ -30,12 +30,9 @@ module Statistics
       end
     end
 
+    # :reek:FeatureEnvy
     def page_views
-      extended_statistics.to_a.map { |key, value| [key, value.count] }
-    end
-
-    def unique_page_views
-      extended_statistics.to_a.map { |key, value| [key, value.uniq.count] }
+      extended_statistics.to_a.map { |key, value| Statistics::Entry.new(key, value.count, value.uniq.count) }
     end
   end
 end

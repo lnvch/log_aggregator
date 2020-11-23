@@ -3,18 +3,17 @@
 module Statistics
   # represents result of statistics calculation
   class Result
-    def initialize(page_views, unique_page_views)
+    def initialize(page_views)
       @page_views = page_views
-      @unique_page_views = unique_page_views
     end
-    attr_reader :page_views, :unique_page_views
+    attr_reader :page_views
 
     def ordered_views
-      page_views.sort { |first, second| second[1] <=> first[1] }
+      page_views.sort_by(&:views_count).reverse!
     end
 
     def ordered_uniq_views
-      unique_page_views.sort { |first, second| second[1] <=> first[1] }
+      page_views.sort_by(&:uniq_views_count).reverse!
     end
   end
 end

@@ -7,8 +7,11 @@ RSpec.describe Statistics::Presenter do
 
   let(:input) do
     Statistics::Result.new(
-      [['/contact', 5], ['/about', 7], ['/help_page/1', 3]],
-      [['/contact', 2], ['/about', 1], ['/help_page/1', 3]]
+      [
+        Statistics::Entry.new('/contact', 5, 2),
+        Statistics::Entry.new('/about', 7, 1),
+        Statistics::Entry.new('/help_page/1', 3, 3)
+      ]
     )
   end
   let(:expected_output) do

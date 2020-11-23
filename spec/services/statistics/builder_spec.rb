@@ -16,15 +16,7 @@ RSpec.describe Statistics::Builder do
   end
 
   it 'returns statistic result' do
-    result = subject.call
-
-    expect(result).to be_kind_of(Statistics::Result)
-    expect(result.page_views).to eq(
-      [['/contact', 2], ['/about', 2], ['/help_page/1', 1]]
-    )
-    expect(result.unique_page_views).to eq(
-      [['/contact', 1], ['/about', 2], ['/help_page/1', 1]]
-    )
+    expect(subject.call).to be_kind_of(Statistics::Result)
   end
 
   context 'when file is empty' do

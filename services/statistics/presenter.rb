@@ -22,14 +22,14 @@ module Statistics
     private
 
     def print_ordered_views
-      ordered_views.each do |key, value|
-        puts "#{key} #{value} visits"
+      ordered_views.each do |entry|
+        puts "#{entry.page} #{entry.views_count} visits"
       end
     end
 
     def print_ordered_uniq_views
-      ordered_uniq_views.each do |key, value|
-        puts "#{key} #{value} unique views"
+      ordered_uniq_views.each do |entry|
+        puts "#{entry.page} #{entry.uniq_views_count} unique views"
       end
     end
   end
