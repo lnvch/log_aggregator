@@ -3,24 +3,33 @@
 require 'spec_helper'
 
 RSpec.describe Statistics::Builder do
-  subject { described_class.new(entries) }
+  subject { described_class.new(log_entries) }
 
-  let(:entries) do
+  let(:log_entries) do
     [
       Log::Entry.new('/contact', '126.318.035.038'),
-      Log::Entry.new('/contact', '126.318.035.038'),
-      Log::Entry.new('/about', '126.318.035.038'),
-      Log::Entry.new('/about', '543.910.244.929'),
-      Log::Entry.new('/help_page/1', '543.910.244.929')
+      Log::Entry.new('/contact', '126.318.035.038')
     ]
   end
 
+  let(:expected_attributes) do
+    {
+      page: '/contact',
+      views_count: 2,
+      uniq_views_count: 1
+    }
+  end
+
   it 'returns statistic result' do
-    expect(subject.call).to be_kind_of(Statistics::Result)
+    result = subject.call
+
+    expect(result).to be_kind_of(Statistics::Result)
+    expect(result.page_views.length).to eq(1)
+    expect(result.page_views.first).to have_attributes(expected_attributes)
   end
 
   context 'when file is empty' do
-    let(:entries) { [] }
+    let(:log_entries) { [] }
 
     it 'raises error' do
       expect { subject.call }.to raise_error('No data provided')

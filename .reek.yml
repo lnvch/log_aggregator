@@ -1,0 +1,6 @@
+---
+detectors:
+  FeatureEnvy:
+    exclude:
+      - "Statistics::Builder#statistic_entries"
+      - "Statistics::Builder#grouped_entries_by_page"

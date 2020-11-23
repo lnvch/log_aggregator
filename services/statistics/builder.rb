@@ -14,25 +14,23 @@ module Statistics
     def call
       raise 'No data provided' if entries.empty?
 
-      build_extended_statistics
-
-      Statistics::Result.new(page_views)
+      Statistics::Result.new(statistic_entries)
     end
 
     private
 
-    attr_reader :entries, :extended_statistics
+    attr_reader :entries
 
-    def build_extended_statistics
-      initial = Hash.new([])
-      @extended_statistics = entries.each_with_object(initial) do |entry, res|
-        res[entry.page] += [entry.ip_address]
+    def statistic_entries
+      grouped_entries_by_page.to_a.map do |page, ip_addresses|
+        Statistics::Entry.new(page, ip_addresses.count, ip_addresses.uniq.count)
       end
     end
 
-    # :reek:FeatureEnvy
-    def page_views
-      extended_statistics.to_a.map { |key, value| Statistics::Entry.new(key, value.count, value.uniq.count) }
+    def grouped_entries_by_page
+      entries.each_with_object(Hash.new([])) do |entry, result|
+        result[entry.page] += [entry.ip_address]
+      end
     end
   end
 end
