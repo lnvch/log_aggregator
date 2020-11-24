@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Statistics::Aggregator do
-  subject { described_class.new(path) }
+  subject { described_class }
 
   let(:path) { 'spec/fixtures/example2.log' }
   let(:expected_output) do
@@ -25,14 +25,14 @@ RSpec.describe Statistics::Aggregator do
   end
 
   it 'provides log statistics result' do
-    expect { subject.call }.to output(expected_output).to_stdout
+    expect { subject.call(path) }.to output(expected_output).to_stdout
   end
 
   context 'when input file is malformed' do
     let(:path) { 'spec/fixtures/malformed.log' }
 
     it 'raises error' do
-      expect { subject.call }.to raise_error('Input file is malformed')
+      expect { subject.call(path) }.to raise_error('Input file is malformed')
     end
   end
 end

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Statistics::Aggregator do
-  subject { described_class.new(filename) }
+  subject { described_class }
 
   let(:filename) { 'dummy' }
   let(:log_entries) { double('log entries') }
@@ -19,6 +19,6 @@ RSpec.describe Statistics::Aggregator do
     expect(Statistics::Builder).to receive(:call).with(log_entries)
     expect(Statistics::Presenter).to receive(:call).with(result)
 
-    subject.call
+    subject.call(filename)
   end
 end
