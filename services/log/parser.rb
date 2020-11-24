@@ -27,16 +27,16 @@ module Log
     attr_accessor :path, :result
 
     def check_file
-      raise 'Provided path is empty' if path.empty?
-      raise 'File does not exist' unless File.file?(path)
-      raise 'File format is wrong' unless File.extname(path) == '.log'
+      raise PathError if path.empty?
+      raise MissingFileError unless File.file?(path)
+      raise FileFormatError unless File.extname(path) == '.log'
     end
 
     def parse_line(line)
       params = line.split
       entry = Log::Entry.new(params[0], params[1])
 
-      raise 'Input file is malformed' unless entry.valid?
+      raise FileContentError unless entry.valid?
 
       result << entry
       result

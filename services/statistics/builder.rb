@@ -12,7 +12,7 @@ module Statistics
     end
 
     def call
-      raise 'No data provided' if entries.empty?
+      raise InputError if entries.empty?
 
       Statistics::Result.new(statistic_entries)
     end
